@@ -5,6 +5,7 @@ RUN apk add py-pip
 RUN apk add --no-cache python3-dev
 #RUN pip install --no-cache-dir pipenv
 RUN pip install --upgrade pip
+RUN pip install pymongo
 
 WORKDIR /usr/src/app
 #COPY Pipfile Pipfile.lock bootstrap.sh ./

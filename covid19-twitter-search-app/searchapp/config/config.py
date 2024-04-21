@@ -8,7 +8,7 @@ postgresdb_config = {
 
 mongodb_config = {
     "host": "mongodb",
-    "port": "27017",
+    "port": 27017,
     "username": "root",
     "password": "pass",
     "authSource": "admin"
