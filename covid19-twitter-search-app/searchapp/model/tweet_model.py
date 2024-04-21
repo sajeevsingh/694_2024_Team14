@@ -32,3 +32,32 @@ class tweet_model():
         sort_by = [("created_at", -1)]
         result = self.tweet_collection.find(query).sort(sort_by).limit(100)
         return list(result)
+    def most_active_users(self, max_timestamp):
+        end_timestamp = max_timestamp
+        start_timestamp = max_timestamp - timedelta(hours=1)
+
+        pipeline = [
+        { "$match": { "created_at": { "$gte": start_timestamp, "$lte": end_timestamp } } },
+        { "$group": { "_id": { "user_id": "$user_id", "user_screen_name": "$user_screen_name" }, "count": { "$sum": 1 } } },
+        { "$project": { "_id": 0, "user_id": "$_id.user_id", "user_screen_name": "$_id.user_screen_name", "count": 1 } },
+        { "$sort": { "count": -1 } },
+        { "$limit": 50 }
+        ]    
+        result = self.tweet_collection.aggregate(pipeline)    
+        return list(result)
+    
+    def most_trending_hashtags(self, timestamp):
+        end_timestamp = timestamp
+        start_timestamp = timestamp - timedelta(hours=1)
+        pipeline = [
+            { "$match": { "created_at": { "$gte": start_timestamp, "$lte": end_timestamp } } },
+            { "$unwind": "$hashtags" }, 
+            { "$group": { "_id": "$hashtags", "count": { "$sum": 1 } } },
+            { "$project": { "_id": 0, "hashtag": "$_id", "count": 1 } },
+            { "$sort": { "count": -1 } } ,
+            { "$limit": 50 } 
+        ]
+    
+        result = self.tweet_collection.aggregate(pipeline)
+    
+        return list(result)
