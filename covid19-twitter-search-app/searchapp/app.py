@@ -2,9 +2,12 @@ import requests
 import flask
 from flask_smorest import Api
 from flask import request, jsonify
+
 from controllers.university_controller import blp as UniversityBlueprint
 from controllers.tweet_controller import blp as TweetBlueprint
 from controllers.user_controller import blp as UserBlueprint
+from model.tweet_model import tweet_model
+tweet_obj = tweet_model()
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -20,6 +23,11 @@ api = Api(app)
 api.register_blueprint(UniversityBlueprint)
 api.register_blueprint(TweetBlueprint)
 api.register_blueprint(UserBlueprint)
+
+@app.route("/tweet/keyword")
+def all_tweets():
+    key_word = request.args.get('keyword')
+    return jsonify(tweet_obj.query_tweets_by_keyword(key_word))
 
 @app.route('/', methods=['GET'])
 def home():
