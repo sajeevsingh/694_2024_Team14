@@ -10,10 +10,12 @@ RUN pip install pymongo
 WORKDIR /usr/src/app
 #COPY Pipfile Pipfile.lock bootstrap.sh ./
 COPY requirements.txt bootstrap.sh ./
+RUN dos2unix /usr/src/app/bootstrap.sh && chmod +x /usr/src/app/bootstrap.sh
 COPY searchapp ./searchapp
 
 #RUN pipenv install --system --deploy
-RUn pip --no-cache-dir install -r requirements.txt
+RUN pip --no-cache-dir install -r requirements.txt
+
 
 EXPOSE 5000
 ENTRYPOINT ["/usr/src/app/bootstrap.sh"]
