@@ -1,20 +1,39 @@
-from flask import request
-from app import app
+import requests
+from flask import Flask, jsonify, request
+from flask.views import MethodView
+from flask_smorest import Blueprint, abort
 from model.tweet_model import tweet_model
 obj = tweet_model()
 
-@app.route("/tweet/all")
-def all_tweets():
-    return obj.all_tweets()
+blp = Blueprint("tweets", __name__, description="Operations on tweets resource")
 
-@app.route("/hashtag")
-def hashtag_dates():
-    hashtag = request.args['hashtag']
-    start = request.args['start']
-    end = request.args['end']
-    print(start, end)
-    return obj.hashtag_dates(hashtag,start,end)
+@blp.route("/api/v1/tweets")
+class GetAllTweets(MethodView):
 
-@app.route("/wordfind/<name>")
-def find_word(name):
-    return obj.word_find(name)
+    def get(self):
+        try:
+            return jsonify(obj.all_tweets()), 200
+        except KeyError:
+            abort(404, message="Tweet Not Found.")
+
+@blp.route("/api/v1/tweets")
+class GetHashtagsByDate(MethodView):
+
+    def get(self, user_name):
+        try:
+            hashtag = request.args['hashtag']
+            start = request.args['start']
+            end = request.args['end']
+            print(start, end)
+            return jsonify(obj.hashtag_dates(hashtag, start, end)), 200
+        except KeyError:
+            abort(404, message="Hashtags Not Found.")
+
+@blp.route("/api/v1/tweets/<string:tweet_text>")
+class FindTweets(MethodView):
+
+    def get(self, user_name):
+        try:
+            return jsonify(obj.word_find(tweet_text)), 200
+        except KeyError:
+            abort(404, message="Tweet Not Found.")
