@@ -7,10 +7,10 @@ name = "pypi"
 flask = "*"
 marshmallow = "*"
 pymongo = "*"
-bson = "*"
 psycopg2-binary = "*"
 flask-caching = "*"
 requests = "*"
+flask-smorest = "*"
 
 [dev-packages]
 

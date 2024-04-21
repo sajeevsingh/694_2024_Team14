@@ -1,32 +1,35 @@
-import imp
-import flask
-from flask import request
-from app import app
+import requests
+from flask import Flask, jsonify, request
+from flask.views import MethodView
+from flask_smorest import Blueprint, abort
 from model.user_model import user_model
 obj = user_model()
 
-@app.route("/user/all")
-def all_user_model():
-    return obj.all_user_model()
+blp = Blueprint("users", __name__, description="Operations on User resource")
 
-@app.route("/user/<name>")
-def specific_user(name):
-    return obj.get_specific_user(name)
+@blp.route("/api/v1/user/<string:user_name>")
+class GetUserByName(MethodView):
 
-@app.route("/search")
-def get_search_user():
-    arg1 = request.args['arg1']
-    arg2 = request.args['arg2']
-    return obj.get_user_search(arg1,arg2)
+    def get(self, user_name):
+        try:
+            return jsonify(obj.get_specific_user(user_name)), 200
+        except KeyError:
+            abort(404, message="User Not Found.")
 
-@app.route("/wildsearch/<name>")
-def wild(name):
-    return obj.wild_search(name)
+@blp.route("/api/v1/users")
+class GetAllUsers(MethodView):
 
-@app.route("/usercount/<name>")
-def usercount(name):
-    return obj.user_count(name)
+    def get(self):
+        try:
+            return jsonify(obj.all_user_model()), 200
+        except KeyError:
+            abort(404, message="User Not Found.")
 
-@app.route("/top10")
-def top10_users():
-    return obj.top10_users()
+@blp.route("/api/v1/users/top10")
+class GetAllUsers(MethodView):
+
+    def get(self):
+        try:
+            return jsonify(obj.top10_users()), 200
+        except KeyError:
+            abort(404, message="User Not Found.")

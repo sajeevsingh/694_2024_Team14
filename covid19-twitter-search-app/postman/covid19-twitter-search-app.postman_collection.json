@@ -1,0 +1,61 @@
+{
+	"info": {
+		"_postman_id": "9caaa78b-42e4-4461-9290-d5c4c189645e",
+		"name": "covid19-twitter-search-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34414136"
+	},
+	"item": [
+		{
+			"name": "01-home-page",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "02-get-universities",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:5000/universities?country=Germany",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"universities"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "Germany"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
