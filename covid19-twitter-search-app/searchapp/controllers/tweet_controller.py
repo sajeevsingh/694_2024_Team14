@@ -3,7 +3,9 @@ from flask import Flask, jsonify, request
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from model.tweet_model import tweet_model
+from datetime import datetime
 obj = tweet_model()
+
 
 blp = Blueprint("tweets", __name__, description="Operations on tweets resource")
 
@@ -16,18 +18,16 @@ class GetAllTweets(MethodView):
         except KeyError:
             abort(404, message="Tweet Not Found.")
 
-@blp.route("/api/v1/tweets")
-class GetHashtagsByDate(MethodView):
+@blp.route("/api/v1/trending_hashtags")
+class GetTopHashtags(MethodView):
 
-    def get(self, user_name):
+    def get(self):
         try:
-            hashtag = request.args['hashtag']
-            start = request.args['start']
-            end = request.args['end']
-            print(start, end)
-            return jsonify(obj.hashtag_dates(hashtag, start, end)), 200
+            time_stamp_str = request.args.get('time_stamp')
+            time_stamp = datetime.fromisoformat(time_stamp_str)
+            return jsonify(obj.most_trending_hashtags(time_stamp)),200
         except KeyError:
-            abort(404, message="Hashtags Not Found.")
+            abort(404, message="No Hashtags Found.")
 
 @blp.route("/api/v1/tweets/<string:tweet_text>")
 class FindTweets(MethodView):
