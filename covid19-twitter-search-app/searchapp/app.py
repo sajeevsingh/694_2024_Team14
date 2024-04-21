@@ -1,25 +1,25 @@
 import requests
 import flask
+from flask_smorest import Api
 from flask import request, jsonify
+from controllers.university_controller import blp as UniversityBlueprint
+from controllers.tweet_controller import blp as TweetBlueprint
+from controllers.user_controller import blp as UserBlueprint
 
 app = flask.Flask(__name__)
-
-try:
-    from controllers import *
-except Exception as e:
-    print(e)
-
 app.config["DEBUG"] = True
+app.config["PROPAGATE_EXCEPTIONS"] = True
+app.config["API_TITLE"] = "Covid19 Twitter Search App"
+app.config["API_VERSION"] = "v1"
+app.config["OPENAPI_VERSION"] = "3.0.3"
+app.config["OPENAPI_URL_PREFIX"] = "/"
+app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
+app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
 
-@app.route("/universities")
-def get_universities():
-    API_URL = "http://universities.hipolabs.com/search?country="
-    search = request.args.get('country')
-
-    # get it from external source
-    r = requests.get(f"{API_URL}{search}")
-
-    return jsonify(r.json())
+api = Api(app)
+api.register_blueprint(UniversityBlueprint)
+api.register_blueprint(TweetBlueprint)
+api.register_blueprint(UserBlueprint)
 
 @app.route('/', methods=['GET'])
 def home():
