@@ -1,11 +1,12 @@
 
 import time
+
+from pymongo import MongoClient
 from pymongo import MongoClient
 import json
 from datetime import datetime, timedelta
 from config.config import mongodb_config
 from collections import OrderedDict
-
 
 def get_timestamp():
     return int(datetime.utcnow().timestamp())
