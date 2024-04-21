@@ -1,6 +1,8 @@
 import requests
 import flask
 from flask import request, jsonify
+from model.tweet_model import tweet_model
+tweet_obj = tweet_model()
 
 app = flask.Flask(__name__)
 
@@ -10,6 +12,11 @@ except Exception as e:
     print(e)
 
 app.config["DEBUG"] = True
+
+@app.route("/tweet/keyword")
+def all_tweets():
+    key_word = request.args.get('keyword')
+    return jsonify(tweet_obj.query_tweets_by_keyword(key_word))
 
 @app.route("/universities")
 def get_universities():

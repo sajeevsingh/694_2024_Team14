@@ -1,6 +1,5 @@
 
 import time
-pymongo
 from pymongo import MongoClient
 import json
 from datetime import datetime, timedelta
@@ -14,9 +13,21 @@ def get_timestamp():
 class tweet_model():
 
     def __init__(self):
-        self.mongoClient = MongoClient(host=mongodb_config['mongodb'], port=mongodb_config['port'], username=mongodb_config['username'], password=mongodb_config['password'], authSource=mongodb_config['authSource'])
-        self.db = self.mongoClient["final_project_latest"]
-        self.tweet_collection = self.db["tweet_collection"]
+        self.mongoClient = MongoClient(host=mongodb_config['host'], port=mongodb_config['port'], username=mongodb_config['username'], password=mongodb_config['password'], authSource=mongodb_config['authSource'])
+        self.db = self.mongoClient["tweets"]
+        self.tweet_collection = self.db["tweets"]
         self.cache = OrderedDict()
         self.MAX_CACHE_SIZE = 1000
         self.DEFAULT_CACHE_TTL = 3600
+    
+    def query_tweets_by_keyword(self,keyword):
+        query = {
+            "$text": {
+                "$search": keyword
+            },
+            "is_retweet": False,
+            "lang": "en"
+        }    
+        sort_by = [("created_at", -1)]
+        result = self.tweet_collection.find(query).sort(sort_by).limit(100)
+        return list(result)
