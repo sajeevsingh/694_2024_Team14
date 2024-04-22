@@ -1,8 +1,8 @@
 postgresdb_config = {
-    "host": "postgres",
+    "host": "postgres", 
     "port": "5432",
     "username": "postgres",
-    "password": "postgres",
+    "password": "postgres",  
     "database": "users"
 }
 

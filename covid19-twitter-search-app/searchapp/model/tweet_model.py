@@ -29,8 +29,10 @@ class tweet_model():
             "is_retweet": False,
             "lang": lang
         }    
-        sort_by = [("created_at", -1)]
-        result = self.tweet_collection.find(query).sort(sort_by).limit(100)
+
+        projection = {"score": {"$meta": "textScore"}}
+        sort_by = [("score", {"$meta": "textScore"}), ("created_at", -1)]
+        result = self.tweet_collection.find(query, projection).sort(sort_by).limit(100)
         return list(result)
     
     def query_tweets_by_user_id(self, user_id):

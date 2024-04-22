@@ -118,7 +118,9 @@ ids = col.insert_many(list(tweets.values()))
 
 print("Processing complete. Tweets and retweets have been stored in MongoDB.")
 
+col.create_index([("text", pymongo.TEXT)])
 col.create_index("user_id")
+
 
 print("creating index completed")
 
@@ -150,10 +152,10 @@ user_records = [
 
 db_config = {"database" : 'users',
 "user" : 'postgres',
-"password" : 'postgres',
+"password" : 'postgres',  
 "host" : 'localhost', 
-"port" : '5432'
-}
+"port" : '5432' 
+} 
 
 
 conn = psycopg2.connect(**db_config)
