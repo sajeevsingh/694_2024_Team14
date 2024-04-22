@@ -67,6 +67,62 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get_tweets_by_user_name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/tweets/user_screen_name?user_screen_name=Kenkendall19",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"tweets",
+								"user_screen_name"
+							],
+							"query": [
+								{
+									"key": "user_screen_name",
+									"value": "Kenkendall19"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get_tweet_by_user_id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/tweets/user_id?user_id=2295845336",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"tweets",
+								"user_id"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "2295845336"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

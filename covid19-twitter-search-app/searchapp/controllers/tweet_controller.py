@@ -39,3 +39,23 @@ class FindTweetsByKeyWord(MethodView):
             return jsonify(obj.query_tweets_by_keyword(key_word,lang)), 200
         except KeyError:
             abort(404, message="Tweet Not Found.")
+
+@blp.route("/api/v1/tweets/user_id")
+class FindTweetsByUserId(MethodView):
+
+    def get(self):
+        try:
+            user_id = str(request.args.get('user_id'))
+            return jsonify(obj.query_tweets_by_user_id(user_id)), 200
+        except KeyError:
+            abort(404, message="Tweet Not Found.")
+
+@blp.route("/api/v1/tweets/user_screen_name")
+class FindTweetsByUserName(MethodView):
+
+    def get(self):
+        try:
+            user_screen_name = str(request.args.get('user_screen_name'))
+            return jsonify(obj.query_tweets_by_user_screen_name(user_screen_name)), 200
+        except KeyError:
+            abort(404, message="Tweet Not Found.")
