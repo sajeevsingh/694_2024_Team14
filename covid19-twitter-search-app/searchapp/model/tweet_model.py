@@ -32,6 +32,15 @@ class tweet_model():
         sort_by = [("created_at", -1)]
         result = self.tweet_collection.find(query).sort(sort_by).limit(100)
         return list(result)
+    
+    def query_tweets_by_user_id(self, user_id):
+        query = {
+            "user_id": user_id
+        }    
+        sort_by = [("created_at", -1)]
+        result = self.tweet_collection.find(query).sort(sort_by).limit(100)
+        return list(result)
+
     def most_active_users(self, max_timestamp):
         end_timestamp = max_timestamp
         start_timestamp = max_timestamp - timedelta(hours=1)
