@@ -11,7 +11,7 @@ WORKDIR /usr/src/app
 #COPY Pipfile Pipfile.lock bootstrap.sh ./
 COPY requirements.txt bootstrap.sh ./
 #Uncomment the below line for running in Win
-#RUN dos2unix /usr/src/app/bootstrap.sh && chmod +x /usr/src/app/bootstrap.sh 
+RUN dos2unix /usr/src/app/bootstrap.sh && chmod +x /usr/src/app/bootstrap.sh 
 COPY searchapp ./searchapp
 
 #RUN pipenv install --system --deploy

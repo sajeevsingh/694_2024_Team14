@@ -38,3 +38,18 @@ class GetAllUsers(MethodView):
             return jsonify(tweet_obj.most_active_users(max_time_stamp)),200
         except KeyError:
             abort(404, message="No Tweets Found.")
+
+@blp.route("/api/v1/users/popular")
+class GetPopularUsers(MethodView):
+
+    def get(self):
+        try:
+            popular_users = obj.get_popular_users()
+
+            if popular_users:
+                popular_users_json = [{"name": user[1], "screen_name": user[2], "followers_count": user[6], "friends_count": user[7], "favourites_count": user[9]} for user in popular_users]
+                return jsonify(popular_users_json), 200
+            else:
+                abort(404, message="No Popular Users Found.")
+        except KeyError:
+            abort(400, message="Invalid request parameters.")

@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "a7a141cb-5b82-48bb-be87-d1efa98e23b2",
+		"_postman_id": "522b6242-1bf6-47b8-aa2b-293327a3959f",
 		"name": "covid19-twitter-search-app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "34430628"
+		"_exporter_id": "34429734"
 	},
 	"item": [
 		{
@@ -152,6 +152,28 @@
 									"key": "max_time_stamp",
 									"value": "2020-04-25T14:48:38"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/users/popular",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"popular"
 							]
 						}
 					},
