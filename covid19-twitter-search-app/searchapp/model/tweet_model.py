@@ -40,6 +40,14 @@ class tweet_model():
         sort_by = [("created_at", -1)]
         result = self.tweet_collection.find(query).sort(sort_by).limit(100)
         return list(result)
+    
+    def query_tweets_by_user_screen_name(self, user_screen_name):
+        query = {
+            "user_screen_name": user_screen_name
+        }    
+        sort_by = [("created_at", -1)]
+        result = self.tweet_collection.find(query).sort(sort_by).limit(100)
+        return list(result)
 
     def most_active_users(self, max_timestamp):
         end_timestamp = max_timestamp
