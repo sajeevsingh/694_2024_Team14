@@ -1,11 +1,85 @@
 {
 	"info": {
-		"_postman_id": "9caaa78b-42e4-4461-9290-d5c4c189645e",
+		"_postman_id": "199f69d9-aa83-4544-8c3c-eb57a6660111",
 		"name": "covid19-twitter-search-app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "34414136"
+		"_exporter_id": "34429734"
 	},
 	"item": [
+		{
+			"name": "Tweets",
+			"item": [
+				{
+					"name": "Trending_hashtags_bytimestamp",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/trending_hashtags?time_stamp=2020-04-25T14:48:38",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"trending_hashtags"
+							],
+							"query": [
+								{
+									"key": "time_stamp",
+									"value": "2020-04-25T14:48:38"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Most_active_users_bytimestamp",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/users/max_time_stamp?max_time_stamp=2020-04-25T14:48:38",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"",
+								"api",
+								"v1",
+								"users",
+								"max_time_stamp"
+							],
+							"query": [
+								{
+									"key": "max_time_stamp",
+									"value": "2020-04-25T14:48:38"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "01-home-page",
 			"request": {
@@ -54,6 +128,14 @@
 						}
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
 			},
 			"response": []
 		}
