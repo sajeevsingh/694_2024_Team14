@@ -21,13 +21,13 @@ class tweet_model():
         self.MAX_CACHE_SIZE = 1000
         self.DEFAULT_CACHE_TTL = 3600
     
-    def query_tweets_by_keyword(self,keyword):
+    def query_tweets_by_keyword(self, keyword, lang='en'):
         query = {
             "$text": {
                 "$search": keyword
             },
             "is_retweet": False,
-            "lang": "en"
+            "lang": lang
         }    
         sort_by = [("created_at", -1)]
         result = self.tweet_collection.find(query).sort(sort_by).limit(100)

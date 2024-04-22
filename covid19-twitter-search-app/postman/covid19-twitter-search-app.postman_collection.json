@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "199f69d9-aa83-4544-8c3c-eb57a6660111",
+		"_postman_id": "a7a141cb-5b82-48bb-be87-d1efa98e23b2",
 		"name": "covid19-twitter-search-app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "34429734"
+		"_exporter_id": "34430628"
 	},
 	"item": [
 		{
@@ -37,10 +37,34 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "Get_tweet_by_text",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/tweets/tweet_text?tweet_text=modi&lang=en",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"tweets",
+								"tweet_text"
+							],
+							"query": [
+								{
+									"key": "tweet_text",
+									"value": "modi"
+								},
+								{
+									"key": "lang",
+									"value": "en"
+								}
+							]
+						}
 					},
 					"response": []
 				}
@@ -62,7 +86,6 @@
 							],
 							"port": "5000",
 							"path": [
-								"",
 								"api",
 								"v1",
 								"users",
@@ -128,14 +151,6 @@
 						}
 					]
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "New Request",
-			"request": {
-				"method": "GET",
-				"header": []
 			},
 			"response": []
 		}
