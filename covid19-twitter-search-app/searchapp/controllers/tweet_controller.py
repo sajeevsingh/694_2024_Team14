@@ -29,11 +29,13 @@ class GetTopHashtags(MethodView):
         except KeyError:
             abort(404, message="No Hashtags Found.")
 
-@blp.route("/api/v1/tweets/<string:tweet_text>")
-class FindTweets(MethodView):
+@blp.route("/api/v1/tweets/tweet_text")
+class FindTweetsByKeyWord(MethodView):
 
-    def get(self, user_name):
+    def get(self):
         try:
-            return jsonify(obj.word_find(tweet_text)), 200
+            key_word = request.args.get('tweet_text')
+            lang = request.args.get('lang')
+            return jsonify(obj.query_tweets_by_keyword(key_word,lang)), 200
         except KeyError:
             abort(404, message="Tweet Not Found.")

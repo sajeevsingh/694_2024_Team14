@@ -24,10 +24,6 @@ api.register_blueprint(UniversityBlueprint)
 api.register_blueprint(TweetBlueprint)
 api.register_blueprint(UserBlueprint)
 
-@app.route("/tweet/keyword")
-def all_tweets():
-    key_word = request.args.get('keyword')
-    return jsonify(tweet_obj.query_tweets_by_keyword(key_word))
 
 @app.route('/', methods=['GET'])
 def home():
