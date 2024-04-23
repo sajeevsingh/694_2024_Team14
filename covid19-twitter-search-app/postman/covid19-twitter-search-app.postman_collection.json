@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f64c9b7d-f6ef-4dc7-9b6b-f8d111bf70d2",
+		"_postman_id": "78cdba89-8f71-4d14-a8d4-e91b6b5a146e",
 		"name": "covid19-twitter-search-app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "34414136"
@@ -37,12 +37,12 @@
 					"response": []
 				},
 				{
-					"name": "get-tweets-by-keyword",
+					"name": "Get_tweet_by_text",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/api/v1/tweets/keyword?tweet_text=covid-19&lang=en",
+							"raw": "http://localhost:5000/api/v1/tweets/keyword?tweet_text=`corona patient`&lang=en",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -57,11 +57,67 @@
 							"query": [
 								{
 									"key": "tweet_text",
-									"value": "covid-19"
+									"value": "`corona patient`"
 								},
 								{
 									"key": "lang",
 									"value": "en"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get_tweets_by_user_name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/tweets/user_screen_name?user_screen_name=Kenkendall19",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"tweets",
+								"user_screen_name"
+							],
+							"query": [
+								{
+									"key": "user_screen_name",
+									"value": "Kenkendall19"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get_tweet_by_user_id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/tweets/user_id?user_id=2295845336",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"tweets",
+								"user_id"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "2295845336"
 								}
 							]
 						}
@@ -96,6 +152,28 @@
 									"key": "max_time_stamp",
 									"value": "2020-04-25T14:48:38"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/users/popular",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"popular"
 							]
 						}
 					},
@@ -150,17 +228,6 @@
 							"value": "Germany"
 						}
 					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "New Request",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": ""
 				}
 			},
 			"response": []
