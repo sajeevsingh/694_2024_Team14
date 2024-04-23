@@ -2,12 +2,18 @@ import requests
 from flask import Flask, jsonify, request
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-from model.tweet_model import tweet_model
+from searchapp.model.tweet_model import tweet_model
 from datetime import datetime
+from threading import Thread
+
 obj = tweet_model()
 
 
 blp = Blueprint("tweets", __name__, description="Operations on tweets resource")
+
+# Start background thread for checkpointing
+checkpoint_thread = Thread(target=obj.checkpoint_thread)
+checkpoint_thread.start()
 
 @blp.route("/api/v1/tweets")
 class GetAllTweets(MethodView):
@@ -29,14 +35,14 @@ class GetTopHashtags(MethodView):
         except KeyError:
             abort(404, message="No Hashtags Found.")
 
-@blp.route("/api/v1/tweets/tweet_text")
+@blp.route("/api/v1/tweets/keyword")
 class FindTweetsByKeyWord(MethodView):
 
     def get(self):
         try:
             key_word = request.args.get('tweet_text')
             lang = request.args.get('lang')
-            return jsonify(obj.query_tweets_by_keyword(key_word,lang)), 200
+            return jsonify(obj.query_tweets_by_keyword(key_word, lang)), 200
         except KeyError:
             abort(404, message="Tweet Not Found.")
 

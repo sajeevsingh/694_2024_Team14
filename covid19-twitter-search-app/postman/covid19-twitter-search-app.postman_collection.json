@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "522b6242-1bf6-47b8-aa2b-293327a3959f",
+		"_postman_id": "78cdba89-8f71-4d14-a8d4-e91b6b5a146e",
 		"name": "covid19-twitter-search-app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "34429734"
+		"_exporter_id": "34414136"
 	},
 	"item": [
 		{
@@ -42,7 +42,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/api/v1/tweets/tweet_text?tweet_text=modi&lang=en",
+							"raw": "http://localhost:5000/api/v1/tweets/keyword?tweet_text=`corona patient`&lang=en",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -52,12 +52,12 @@
 								"api",
 								"v1",
 								"tweets",
-								"tweet_text"
+								"keyword"
 							],
 							"query": [
 								{
 									"key": "tweet_text",
-									"value": "modi"
+									"value": "`corona patient`"
 								},
 								{
 									"key": "lang",

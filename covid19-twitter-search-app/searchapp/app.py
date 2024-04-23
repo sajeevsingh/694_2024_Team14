@@ -1,13 +1,11 @@
 import requests
+import logging
 import flask
 from flask_smorest import Api
 from flask import request, jsonify
 
-from controllers.university_controller import blp as UniversityBlueprint
-from controllers.tweet_controller import blp as TweetBlueprint
-from controllers.user_controller import blp as UserBlueprint
-from model.tweet_model import tweet_model
-tweet_obj = tweet_model()
+from searchapp.controllers.tweet_controller import blp as TweetBlueprint
+from searchapp.controllers.user_controller import blp as UserBlueprint
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -19,8 +17,10 @@ app.config["OPENAPI_URL_PREFIX"] = "/"
 app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
 app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
 
+# Configure basic logging
+logging.basicConfig(level=logging.DEBUG)
+
 api = Api(app)
-api.register_blueprint(UniversityBlueprint)
 api.register_blueprint(TweetBlueprint)
 api.register_blueprint(UserBlueprint)
 
