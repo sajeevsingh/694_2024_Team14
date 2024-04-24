@@ -1,16 +1,9 @@
 import psycopg2
 import json
 from datetime import datetime, timedelta
-from config.config import postgresdb_config
+from searchapp.config.config import postgresdb_config
 from collections import OrderedDict
 import time
-
-#cache = OrderedDict()
-#MAX_CACHE_SIZE = 1000
-#DEFAULT_CACHE_TTL = 3600
-
-def get_timestamp():
-    return int(datetime.utcnow().timestamp())
 
 class user_model():
 

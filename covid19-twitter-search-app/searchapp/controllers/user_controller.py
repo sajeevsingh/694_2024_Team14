@@ -2,8 +2,8 @@ import requests
 from flask import Flask, jsonify, request
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-from model.user_model import user_model
-from model.tweet_model import tweet_model
+from searchapp.model.user_model import user_model
+from searchapp.model.tweet_model import tweet_model
 from datetime import datetime
 obj = user_model()
 tweet_obj = tweet_model()

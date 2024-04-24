@@ -1,15 +1,12 @@
-
+from pymongo import MongoClient
+from datetime import timedelta
+from searchapp.config.config import mongodb_config
+from searchapp.cache.lru_cache_ttl import LRUCacheWithTTL
 import time
+import logging
 
-from pymongo import MongoClient
-from pymongo import MongoClient
-import json
-from datetime import datetime, timedelta
-from config.config import mongodb_config
-from collections import OrderedDict
-
-def get_timestamp():
-    return int(datetime.utcnow().timestamp())
+MAX_CACHE_SIZE = 5
+DEFAULT_CACHE_TTL = 30
 
 class tweet_model():
 
@@ -17,23 +14,50 @@ class tweet_model():
         self.mongoClient = MongoClient(host=mongodb_config['host'], port=mongodb_config['port'], username=mongodb_config['username'], password=mongodb_config['password'], authSource=mongodb_config['authSource'])
         self.db = self.mongoClient["tweets"]
         self.tweet_collection = self.db["tweets"]
-        self.cache = OrderedDict()
-        self.MAX_CACHE_SIZE = 1000
-        self.DEFAULT_CACHE_TTL = 3600
-    
-    def query_tweets_by_keyword(self, keyword, lang='en'):
-        query = {
-            "$text": {
-                "$search": keyword
-            },
-            "is_retweet": False,
-            "lang": lang
-        }    
+        self.cache = LRUCacheWithTTL(max_size=MAX_CACHE_SIZE, ttl=DEFAULT_CACHE_TTL)
+        self.cache.reload_from_checkpoint()
 
-        projection = {"score": {"$meta": "textScore"}}
-        sort_by = [("score", {"$meta": "textScore"}), ("created_at", -1)]
-        result = self.tweet_collection.find(query, projection).sort(sort_by).limit(100)
-        return list(result)
+    def checkpoint_thread(self):
+        while True:
+            time.sleep(300)
+            self.cache.periodically_checkpoint()
+
+    def query_tweets_by_keyword(self, keyword, lang='en'):
+
+        cache_key = f"{keyword}-{lang}"
+        logging.info(f" cache key : {cache_key}")
+
+        if self.cache.get(cache_key) is None:
+
+            start_time = time.time()
+            query = {
+                "$text": {
+                    "$search": keyword
+                },
+                "is_retweet": False,
+                "lang": lang
+            }
+            projection = {"score": {"$meta": "textScore"}}
+            sort_by = [("score", {"$meta": "textScore"}), ("created_at", -1)]
+
+            result = list(self.tweet_collection.find(query, projection).sort(sort_by).limit(100))
+
+            if len(result) > 0:
+                self.cache.put(cache_key, result)
+
+            end_time = time.time()
+            delta = end_time - start_time
+            logging.info(f"Time taken to retrieve from Database is {delta} seconds")
+
+        else:
+
+            start_time = time.time()
+            result = self.cache.get(cache_key)
+            end_time = time.time()
+            delta = end_time - start_time
+            logging.info(f"Time taken to retrieve from Cache is {delta} seconds")
+
+        return result
     
     def query_tweets_by_user_id(self, user_id):
         query = {
