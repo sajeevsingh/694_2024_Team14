@@ -45,7 +45,6 @@ class GetPopularUsers(MethodView):
     def get(self):
         try:
             popular_users = obj.get_popular_users()
-
             if popular_users:
                 popular_users_json = [{"name": user[1], "screen_name": user[2], "followers_count": user[6], "friends_count": user[7], "favourites_count": user[9]} for user in popular_users]
                 return jsonify(popular_users_json), 200
