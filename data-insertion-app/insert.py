@@ -11,6 +11,7 @@ col = db["tweets"]
 
 tweets = {}
 users = {}
+modified_tweets = {}
 
 def transform_data(data):
 
@@ -70,6 +71,8 @@ def transform_data(data):
                 tweets[parent_id]['reply_count'] = transformed['retweeted_status']['reply_count']
                 tweets[parent_id]['retweet_count'] = transformed['retweeted_status']['retweet_count']
                 tweets[parent_id]['favorite_count'] = transformed['retweeted_status']['favorite_count']
+                modified_tweets[parent_id] = {'quote_count': transformed['retweeted_status']['quote_count'], 'reply_count': transformed['retweeted_status']['reply_count'],\
+                                               'retweet_count': transformed['retweeted_status']['retweet_count'], 'favorite_count': transformed['retweeted_status']['favorite_count']}
     
     elif 'quoted_status' in transformed and transformed['quoted_status']:
         retweet_user_info = transformed['quoted_status'].get('user',None)
@@ -89,19 +92,18 @@ def transform_data(data):
                 tweets[parent_id]['reply_count'] = transformed['quoted_status']['reply_count']
                 tweets[parent_id]['retweet_count'] = transformed['quoted_status']['retweet_count']
                 tweets[parent_id]['favorite_count'] = transformed['quoted_status']['favorite_count']
+                modified_tweets[parent_id] = {'quote_count': transformed['quoted_status']['quote_count'], 'reply_count': transformed['quoted_status']['reply_count'],\
+                                               'retweet_count': transformed['quoted_status']['retweet_count'], 'favorite_count': transformed['quoted_status']['favorite_count']}
     
     
     
         
-    transformed = {key: transformed[key] for key in transformed.keys() if key not in ['retweeted_status', 'quoted_status', 'user', 'entities']}
-    # transformed.pop('entities', None)
-    # transformed.pop('quoted_status', None)
-    # transformed.pop('retweeted_status', None)
     
     transformed['_id'] = transformed['id_str']
+    transformed = {key: transformed[key] for key in transformed.keys() if key not in ['retweeted_status', 'quoted_status', 'user', 'entities', 'id_str', 'id']}
     if transformed['_id'] not in tweets:
         tweets[transformed['_id']] = transformed
-        # col.insert_one(transformed)
+        col.insert_one(transformed)
    
     return transformed
 
@@ -113,8 +115,12 @@ with open("./data/corona-out-3", "r") as f1:
         except Exception as e:
             # print(e)
             continue
-
-ids = col.insert_many(list(tweets.values()))
+print('insertion to mongo completed. Now proceeding with updates')
+# ids = col.insert_many(list(tweets.values()))
+for tweet_id, update_data in modified_tweets.items():
+    update = {'$set': update_data}
+    filter = {'_id': tweet_id}
+    result = col.update_one(filter, update)
 
 print("Processing complete. Tweets and retweets have been stored in MongoDB.")
 

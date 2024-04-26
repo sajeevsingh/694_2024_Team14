@@ -19,7 +19,7 @@ services:
       - postgres
     volumes:
      - './:/src'
-     - '/Users/swaruprakshit/Documents/msds-rutgers/Spring-2024/16-954-694-01-SPEC-TOP-DATA-SCI/final-project/workspace/694_2024_Team14:/src/app'
+    #  - '/Users/swaruprakshit/Documents/msds-rutgers/Spring-2024/16-954-694-01-SPEC-TOP-DATA-SCI/final-project/workspace/694_2024_Team14:/src/app'
     environment:
       - FLASK_APP=app.py
       - FLASK_ENV=development
