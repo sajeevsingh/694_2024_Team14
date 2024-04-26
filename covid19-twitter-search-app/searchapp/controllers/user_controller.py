@@ -52,3 +52,16 @@ class GetPopularUsers(MethodView):
                 abort(404, message="No Popular Users Found.")
         except KeyError:
             abort(400, message="Invalid request parameters.")
+
+@blp.route("/api/v1/users/user_metadata")
+class Getusermetadata(MethodView):
+
+    def get(self):
+        try:
+            name = request.args.get('name')
+            userid = request.args.get('userid')
+            return jsonify(obj.get_user_metadata(name,userid)),200
+        except KeyError:
+            abort(404, message="No users Found.")
+
+            
