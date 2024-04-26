@@ -40,14 +40,14 @@ class user_model():
             cursor = self.conn.cursor()
             if name:
                 sql_query = """
-                    SELECT name, screen_name, location, verified, followers_count, friends_count, favourites_count
+                    SELECT *
                     FROM users
                     WHERE lower(name) LIKE %s;
                 """
                 cursor.execute(sql_query, ('%' + name + '%',))
             elif userid:
                 sql_query = """
-                    SELECT name, screen_name, location, verified, followers_count, friends_count, favourites_count
+                    SELECT *
                     FROM users
                     WHERE id_str = %s;
                 """
