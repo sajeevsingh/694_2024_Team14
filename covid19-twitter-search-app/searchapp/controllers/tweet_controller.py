@@ -4,16 +4,17 @@ from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from searchapp.model.tweet_model import tweet_model
 from datetime import datetime
-from threading import Thread
+import threading
 
 obj = tweet_model()
 
 
-blp = Blueprint("tweets", __name__, description="Operations on tweets resource")
+# Start a thread to periodically invoke the periodically_checkpoint() method
+#checkpoint_thread = threading.Thread(target=obj.checkpoint_thread)
+#checkpoint_thread.daemon = True  # Daemonize the thread to stop it when the main thread exits
+#checkpoint_thread.start()
 
-# Start background thread for checkpointing
-checkpoint_thread = Thread(target=obj.checkpoint_thread)
-checkpoint_thread.start()
+blp = Blueprint("tweets", __name__, description="Operations on tweets resource")
 
 @blp.route("/api/v1/tweets")
 class GetAllTweets(MethodView):

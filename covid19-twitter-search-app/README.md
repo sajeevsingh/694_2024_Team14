@@ -22,7 +22,9 @@ docker run --name searchapp \
 We can use `curl` to make requests to our API. There is one endpoint `/universities`, so let's test that out.
 
 ```
-curl localhost:5000/universities?country=Germany
+curl http://localhost:5000/api/v1/tweets/keyword?tweet_text=`corona patient`&lang=en
+curl http://localhost:5000/api/v1/tweets/keyword?tweet_text=`covid-19`&lang=en
+curl http://localhost:5000/api/v1/tweets/keyword?tweet_text=`narendra modi`&lang=en
 ```
 
 ### fetch incomes from the dockerized instance

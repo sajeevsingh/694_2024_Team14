@@ -19,7 +19,7 @@ services:
       - postgres
     volumes:
      - './:/src'
-     - '/Users/swaruprakshit/Documents/msds-rutgers/Spring-2024/16-954-694-01-SPEC-TOP-DATA-SCI/final-project/workspace/694_2024_Team14:/src/app'
+     - './app/cache-check-pointing:/src/app'
     environment:
       - FLASK_APP=app.py
       - FLASK_ENV=development
@@ -34,6 +34,7 @@ services:
       - MONGO_DB_USER=root
       - MONGO_DB_PASSWORD=pass
       - MONGO_DB_NAME=tweets
+      - CHECKPOINT_DIR=/app/cache-check-pointing
     networks:
       - mynetwork
 
