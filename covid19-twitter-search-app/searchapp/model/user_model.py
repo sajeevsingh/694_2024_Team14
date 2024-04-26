@@ -34,3 +34,33 @@ class user_model():
         except psycopg2.Error as e:
             print("Error fetching popular users:", e)
             return None
+
+    def get_user_metadata(self, name=None, userid=None):
+        try:
+            cursor = self.conn.cursor()
+            if name:
+                sql_query = """
+                    SELECT name, screen_name, location, verified, followers_count, friends_count, favourites_count
+                    FROM users
+                    WHERE lower(name) LIKE %s;
+                """
+                cursor.execute(sql_query, ('%' + name + '%',))
+            elif userid:
+                sql_query = """
+                    SELECT name, screen_name, location, verified, followers_count, friends_count, favourites_count
+                    FROM users
+                    WHERE id_str = %s;
+                """
+                cursor.execute(sql_query, (userid,))
+            else:
+                print("User information not available")
+                cursor.close()
+                return None
+            user_metadata = cursor.fetchall()
+            cursor.close()
+
+            return user_metadata
+
+        except psycopg2.Error as e:
+            print("Error fetching user metadata:", e)
+            return None
