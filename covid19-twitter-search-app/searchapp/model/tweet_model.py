@@ -5,7 +5,7 @@ from searchapp.cache.lru_cache_ttl import LRUCacheWithTTL
 import time
 import logging
 
-MAX_CACHE_SIZE = 5
+MAX_CACHE_SIZE = 2
 DEFAULT_CACHE_TTL = 30
 
 class tweet_model():
@@ -15,7 +15,7 @@ class tweet_model():
         self.db = self.mongoClient["tweets"]
         self.tweet_collection = self.db["tweets"]
         self.cache = LRUCacheWithTTL(max_size=MAX_CACHE_SIZE, ttl=DEFAULT_CACHE_TTL)
-        self.cache.reload_from_checkpoint()
+        #self.cache.reload_from_checkpoint()
 
     def checkpoint_thread(self):
         while True:

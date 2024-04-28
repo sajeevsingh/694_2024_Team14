@@ -5,7 +5,7 @@ import time
 from datetime import datetime, timedelta
 import logging
 
-CHECKPOINT_DIR = os.environ.get("CHECKPOINT_DIR", "/usr/src/app")
+CHECKPOINT_DIR = os.environ.get("CHECKPOINT_DIR", "/src/app")
 
 class LRUCacheWithTTL:
 
@@ -14,6 +14,7 @@ class LRUCacheWithTTL:
         self.max_size = max_size
         self.ttl = ttl
         self.last_checkpoint_time = datetime.now()
+        #self.reload_from_checkpoint()
 
     def get(self, key):
         if key not in self.cache:
@@ -43,15 +44,31 @@ class LRUCacheWithTTL:
     def checkpoint_to_disk(self):
         logging.info("Periodically saving cache to disk.")
         checkpoint_file = os.path.join(CHECKPOINT_DIR, "cache_checkpoint.pkl")
-        with open(checkpoint_file, "wb") as f:
-            pickle.dump(self.cache, f)
+
+        # Create the pickle file if it doesn't exist
+        if not os.path.exists(checkpoint_file):
+            with open(checkpoint_file, "wb") as f:
+                pickle.dump({}, f)
+
+        with open(checkpoint_file, "rb+") as f:
+            # Load the existing data from the file
+            existing_data = pickle.load(f)
+            # Update the data with the current cache
+            existing_data.update(self.cache)
+            # Move the file pointer to the beginning
+            f.seek(0)
+            # Write the updated data back to the file
+            pickle.dump(existing_data, f)
+            # Truncate any remaining data after the updated data
+            f.truncate()
+
 
     def reload_from_checkpoint(self):
         logging.info("Reloading cache at the start of the application.")
         checkpoint_file = os.path.join(CHECKPOINT_DIR, "cache_checkpoint.pkl")
         if os.path.exists(checkpoint_file):
             with open(checkpoint_file, "rb") as f:
-                self.cache = pickle.load(f)
+                self.cache = OrderedDict(pickle.load(f))
 
     def periodically_checkpoint(self, interval = 300):
         if datetime.now() - self.last_checkpoint_time > timedelta(seconds=interval):
