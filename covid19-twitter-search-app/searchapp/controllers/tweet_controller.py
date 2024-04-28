@@ -16,15 +16,6 @@ obj = tweet_model()
 
 blp = Blueprint("tweets", __name__, description="Operations on tweets resource")
 
-@blp.route("/api/v1/tweets")
-class GetAllTweets(MethodView):
-
-    def get(self):
-        try:
-            return jsonify(obj.all_tweets()), 200
-        except KeyError:
-            abort(404, message="Tweet Not Found.")
-
 @blp.route("/api/v1/trending_hashtags")
 class GetTopHashtags(MethodView):
 
@@ -66,3 +57,14 @@ class FindTweetsByUserName(MethodView):
             return jsonify(obj.query_tweets_by_user_screen_name(user_screen_name)), 200
         except KeyError:
             abort(404, message="Tweet Not Found.")
+
+
+@blp.route("/api/v1/tweets/parent_id")
+class FindReTweetsByparentid(MethodView):
+
+    def get(self):
+        try:
+            tweet_id = str(request.args.get('parent_id'))
+            return jsonify(obj.query_retweets_by_tweet_id(tweet_id)), 200
+        except KeyError:
+            abort(404, message="ReTweets Not Found.")

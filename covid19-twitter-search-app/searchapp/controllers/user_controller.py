@@ -45,7 +45,6 @@ class GetPopularUsers(MethodView):
     def get(self):
         try:
             popular_users = obj.get_popular_users()
-
             if popular_users:
                 popular_users_json = [{"name": user[1], "screen_name": user[2], "followers_count": user[6], "friends_count": user[7], "favourites_count": user[9]} for user in popular_users]
                 return jsonify(popular_users_json), 200
@@ -53,3 +52,19 @@ class GetPopularUsers(MethodView):
                 abort(404, message="No Popular Users Found.")
         except KeyError:
             abort(400, message="Invalid request parameters.")
+
+@blp.route("/api/v1/users/user_metadata")
+class Getusermetadata(MethodView):
+
+    def get(self):
+        try:
+            name = request.args.get('name')
+            userid = request.args.get('userid')
+            result = obj.get_user_metadata(name,userid)
+            if result:
+                result_json = [{"name": user[1], "screen_name": user[2], "followers_count": user[6], "friends_count": user[7], "favourites_count": user[9]} for user in result]
+                return jsonify(result_json), 200
+        except KeyError:
+            abort(404, message="No users Found.")
+
+            

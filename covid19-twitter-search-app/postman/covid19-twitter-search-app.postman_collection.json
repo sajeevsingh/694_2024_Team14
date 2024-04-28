@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "78cdba89-8f71-4d14-a8d4-e91b6b5a146e",
+		"_postman_id": "a5fa379b-6743-4d1d-8fba-35482d3406de",
 		"name": "covid19-twitter-search-app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "34414136"
+		"_exporter_id": "34429734"
 	},
 	"item": [
 		{
@@ -38,11 +38,59 @@
 				},
 				{
 					"name": "Get_tweet_by_text",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `\r",
+									"<style type=\"text/css\">\r",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+									"    .tftable tr {background-color:#ffffff;}\r",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+									"    .tftable tr:hover {background-color:#e0ffff;}\r",
+									"</style>\r",
+									"\r",
+									"<table class=\"tftable\" border=\"1\">\r",
+									"    <tr>\r",
+									"        <th>ID</th>\r",
+									"        <th>Created At</th>\r",
+									"        <th>Favorite Count</th>\r",
+									"        <th>Hashtags</th>\r",
+									"        <th>Text</th>\r",
+									"        <th>User Name</th>\r",
+									"    </tr>\r",
+									"    \r",
+									"    {{#each response}}\r",
+									"        <tr>\r",
+									"            <td>{{id}}</td>\r",
+									"            <td>{{created_at}}</td>\r",
+									"            <td>{{favorite_count}}</td>\r",
+									"            <td>{{hashtags.join(', ')}}</td>\r",
+									"            <td>{{text}}</td>\r",
+									"            <td>{{user_name}}</td>\r",
+									"        </tr>\r",
+									"    {{/each}}\r",
+									"</table>\r",
+									"`;\r",
+									"\r",
+									"function constructVisualizerPayload() {\r",
+									"    return { response: pm.response.json() }\r",
+									"}\r",
+									"\r",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/api/v1/tweets/keyword?tweet_text=`corona patient`&lang=en",
+							"raw": "http://localhost:5000/api/v1/tweets/keyword?tweet_text=`corona`&lang=en",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -57,7 +105,7 @@
 							"query": [
 								{
 									"key": "tweet_text",
-									"value": "`corona patient`"
+									"value": "`corona`"
 								},
 								{
 									"key": "lang",
@@ -97,7 +145,7 @@
 					"response": []
 				},
 				{
-					"name": "Get_tweet_by_user_id",
+					"name": "Get_tweets_by_user_id",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -118,6 +166,34 @@
 								{
 									"key": "user_id",
 									"value": "2295845336"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get_retweets_by_parent_id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/tweets/parent_id?parent_id=1253966779900137472",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"tweets",
+								"parent_id"
+							],
+							"query": [
+								{
+									"key": "parent_id",
+									"value": "1253966779900137472"
 								}
 							]
 						}
@@ -158,7 +234,7 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "Get_most_popular_users",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -178,59 +254,36 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get_User_metadata_by_name_or_id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/users/user_metadata?userid=1000006582896295938",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"user_metadata"
+							],
+							"query": [
+								{
+									"key": "userid",
+									"value": "1000006582896295938"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
-		},
-		{
-			"name": "01-home-page",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:5000/",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "02-get-universities",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"url": {
-					"raw": "http://localhost:5000/universities?country=Germany",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"universities"
-					],
-					"query": [
-						{
-							"key": "country",
-							"value": "Germany"
-						}
-					]
-				}
-			},
-			"response": []
 		}
 	]
 }

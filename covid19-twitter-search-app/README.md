@@ -18,45 +18,16 @@ docker run --name searchapp \
     searchapp
 ```
 
+### In order to shut-down with docker-compose
+```
+docker-compose down
+```
+
 ### Test the application (API)
-We can use `curl` to make requests to our API. There is one endpoint `/universities`, so let's test that out.
+We can use `curl` to make requests to our API. There is one endpoint `/api/v1/tweets/keyword`, so let's test that out.
 
 ```
 curl http://localhost:5000/api/v1/tweets/keyword?tweet_text=`corona patient`&lang=en
 curl http://localhost:5000/api/v1/tweets/keyword?tweet_text=`covid-19`&lang=en
-curl http://localhost:5000/api/v1/tweets/keyword?tweet_text=`narendra modi`&lang=en
+curl http://localhost:5000/api/v1/tweets/keyword?tweet_text=`Corona virus`&lang=en
 ```
-
-### fetch incomes from the dockerized instance
-```
-curl http://localhost:5000/incomes/
-```
-
-### add identity
-```
-curl -X POST -H "Content-Type: application/json" -d '{
-    "_name": "Roger",
-    "surname": "Water"
-}' http://localhost:5000/identity
-```
-
-### find an identity
-```
-curl http://localhost:5000/identity?_name=Roger
-```
-
-### samples taken from following website
-
-https://auth0.com/blog/developing-restful-apis-with-python-and-flask/
-
-https://www.geeksforgeeks.org/dockerizing-a-python-flask-application-with-a-database/
-
-https://geshan.com.np/blog/2021/12/docker-postgres/
-
-https://realpython.com/lru-cache-python/
-
-### List of command for psql
-
-https://hasura.io/blog/top-psql-commands-and-flags-you-need-to-know-postgresql
-
-https://www.geeksforgeeks.org/postgresql-psql-commands/

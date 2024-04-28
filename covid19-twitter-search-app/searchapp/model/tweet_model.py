@@ -104,3 +104,13 @@ class tweet_model():
         result = self.tweet_collection.aggregate(pipeline)
     
         return list(result)
+    
+    def query_retweets_by_tweet_id(self,tweet_id):
+    
+        query = {
+            "parent_id": tweet_id,  
+            "is_retweet": True  
+        }
+        sort_by = [("created_at", -1)]
+        result = self.tweet_collection.find(query).sort(sort_by).limit(100)
+        return list(result)
